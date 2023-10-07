@@ -16,7 +16,6 @@ public:
     void    ensureCapacity(int index);
 };
 
-
 template<class T>
 void ArrayList<T>::ensureCapacity(int cap) {
     /*
@@ -25,18 +24,6 @@ void ArrayList<T>::ensureCapacity(int cap) {
             create new array with new_capacity
         else: do nothing
     */
-    if (this->capacity == cap)
-    {
-        int new_capaity = capacity * 1.5;
-        T* new_data = new T[new_capaity];
-        for (int i = 0; i < capacity; i++)
-        {
-            new_data[i] = this->data[i];
-        }
-        free(this->data);
-        this->data = new_data;
-        this->capacity = new_capaity;
-    }
 }
 
 template <class T>
@@ -44,13 +31,23 @@ void ArrayList<T>::add(T e) {
     /* Insert an element into the end of the array. */
     if (this->count < this->capacity)
     {
-        this->data[this->count] = e;
-        this->count++;
+        int i = 0;
+        while (this->data[i] != NULL)
+        {
+            i++;
+        }
+        this->data[i] = e;
+        count++;
     }
-    else if (this->count == this->capacity)
+    else
     {
-        this->data[this->capacity - 1] = 
+        for (int i = 0; i < this->capacity - 1; i++)
+        {
+            this->data[i] = this->data[i + 1];
+        }
+        this->data[this->capacity - 1] = e;
     }
+
 }
 
 template<class T>
@@ -65,13 +62,22 @@ void ArrayList<T>::add(int index, T e) {
 template<class T>
 int ArrayList<T>::size() {
     /* Return the length (size) of the array */
-    return 0;
+    return this->capacity;
 }
+
 
 
 
 int main()
 {
+    ArrayList<int> arr;
+    int size = 10;
 
+    for (int index = 0; index < size; index++) {
+        arr.add(index);
+    }
+
+    cout << arr.toString() << '\n';
+    cout << arr.size();
 }
 
